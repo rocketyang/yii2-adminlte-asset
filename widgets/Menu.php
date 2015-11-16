@@ -146,7 +146,7 @@ class Menu extends \yii\widgets\Menu
             }
             $arrayRoute = explode('/', ltrim($route, '/'));
             $arrayThisRoute = explode('/', $this->route);
-            if (!array_diff($arrayRoute, $arrayThisRoute) || !array_diff($arrayThisRoute, $arrayRoute)) {
+            if (array_diff($arrayRoute, $arrayThisRoute) || array_diff($arrayThisRoute, $arrayRoute)) {
                 return false;
             }
             unset($item['url']['#']);
