@@ -144,19 +144,36 @@ class Menu extends \yii\widgets\Menu
             if ($route[0] !== '/' && Yii::$app->controller) {
                 $route = Yii::$app->controller->module->getUniqueId() . '/' . $route;
             }
+            $route = ltrim($route, '/');
+            // $arrayRoute = explode('/', ltrim($route, '/'));
+            // $arrayThisRoute = explode('/', $this->route);
+            // if (array_diff($arrayRoute, $arrayThisRoute) || array_diff($arrayThisRoute, $arrayRoute)) {
+            //     return false;
+            // }
             $arrayRoute = explode('/', ltrim($route, '/'));
             $arrayThisRoute = explode('/', $this->route);
-            if (array_diff($arrayRoute, $arrayThisRoute) || array_diff($arrayThisRoute, $arrayRoute)) {
+            $arrayRoute = array_splice($arrayRoute, 0, -1);
+            $arrayThisRoute = array_splice($arrayThisRoute, 0, -1);
+
+
+            $routePrefix = implode($arrayRoute, '/');
+            $thisRoutePrefix = implode($arrayThisRoute, '/');
+
+
+            if ($route !== $this->route && $routePrefix !== $thisRoutePrefix) {
                 return false;
             }
+
             unset($item['url']['#']);
+
             if (count($item['url']) > 1) {
                 foreach (array_splice($item['url'], 1) as $name => $value) {
                     if ($value !== null && (!isset($this->params[$name]) || $this->params[$name] != $value)) {
                         return false;
                     }
                 }
-            }
+            } 
+             
             return true;
         }
         return false;
